@@ -1,0 +1,24 @@
+int sensortemp=A0;
+float leituratemp=0;
+float temperatura = 0;
+int buzzer = 10;
+
+void setup() {
+  // put your setup code here, to run once:
+Serial.begin(9600);
+pinMode(buzzer,OUTPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+leituratemp = analogRead(sensortemp);
+temperatura = (leituratemp * 0.0048828125) /0.01;
+Serial.print(temperatura);
+Serial.println("c");
+if(temperatura > 25.00){
+  tone(buzzer,2000);
+}else{
+noTone(buzzer);
+}
+delay(1000);
+}
