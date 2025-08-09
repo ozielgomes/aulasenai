@@ -1,0 +1,59 @@
+#include <Ultrasonic.h>
+Ultrasonic ultrasonic(8,7);// trig (8) e echo no pino 7 - nessa ordem
+long distancia;
+int buzzer = 10;
+int verde = 2;
+int amarelo =3;
+int vermelho = 4;
+
+void setup() {
+  // put your setup code here, to run once:
+Serial.begin(9600);//Habilita a comunicação serial em 9600 BPS
+pinMode(buzzer,OUTPUT);
+pinMode(verde,OUTPUT);
+pinMode(amarelo,OUTPUT);
+pinMode(vermelho,OUTPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+distancia = ultrasonic.Ranging(CM);
+Serial.print(distancia);
+Serial.println("cm");
+if(distancia<10){
+
+digitalWrite(verde,HIGH);
+digitalWrite(amarelo,HIGH);
+digitalWrite(vermelho,HIGH);
+tone(buzzer,2000);
+delay(50);
+}
+else if (distancia <25){
+  // Perto: bipes rapidos
+digitalWrite(verde,HIGH);
+digitalWrite(amarelo,HIGH);
+digitalWrite(vermelho,LOW);
+  tone(buzzer,1500);
+  delay(150);
+  noTone(buzzer);
+  delay(150);
+  }
+  else if (distancia<50){
+  //  Medio: bipes lentos
+digitalWrite(verde,HIGH);
+digitalWrite(amarelo,LOW);
+digitalWrite(vermelho,LOW);
+ tone(buzzer,2000);
+  delay(250);
+  noTone(buzzer);
+  delay(250);
+  }
+   else{
+  // Longe:silêncio
+digitalWrite(verde,LOW);
+digitalWrite(amarelo,LOW);
+digitalWrite(vermelho,LOW); 
+noTone(buzzer);
+  delay(300);
+}
+}
